@@ -1,0 +1,19 @@
+php -S localhost:8888 -t public
+php artisan make:controller BackendController
+php artisan migrate
+php artisan make:migration  add_price_to_product_table --table=product
+php artisan migrate:rollback
+
+php artisan make:seeder CategoryTableSeede
+php artisan db:seed
+php artisan migrate:fresh --seed
+
+php artisan db:seed --class=ProductTableSeeder
+
+artisan make:model Product 
+
+php artisan make:controller QueriesController
+
+composer require tymon/jwt-auth
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+php artisan jwt:secret
