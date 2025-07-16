@@ -24,42 +24,37 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        try {
-            $validateData= $request->validate([
-            'name'=> 'required|string|max:150',
+        $validateData = $request->validate([
+            'name' => 'required|string|max:150',
             'description' => 'required|max:255',
             'price' => 'required|numeric',
-            'category_id' => 'required|exists:category,id'
-            
-            ],[
-                'name.required'=> "Eyy care monda necesitas porner un name"
-            ]);
-            
-            
-            ;
-            $product = Product::create($validateData);
-            return response()->json($product);
+            'category_id' => 'required|exists:category,id' 
+        ], [
+            'name.required' => "Eyy care monda necesitas porner un name"
+        ]);
 
-        } catch (ValidationException $e) {
-            return response()->json(["error"=>$e->errors()],Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        $product = Product::create($validateData);
 
+        return response()->json($product, Response::HTTP_OK); 
     }
 
     public function update(UpdateProductRequest $request, Product $product){
-        try{
-            $validateData= $request->validate();
-            $product->update($validateData);
-            return response()->json(["message"=>"Producto actualizado correctamente","Producto"=>$product],Response::HTTP_NOT_FOUND);
+        // 1. Obtiene los datos que ya fueron validados por el Form Request.
+        $validatedData = $request->validated();
 
-        }catch (Exception $e) {
-            return response()->json(["error"=>$e],Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        // 2. Actualiza el producto en la base de datos.
+        $product->update($validatedData);
+
+        // 3. Devuelve la respuesta JSON correcta con un código 200 OK.
+        return response()->json([
+            'message' => 'Producto actualizado exitosamente',
+            'product' => $product->fresh() // Usamos fresh() para obtener el modelo actualizado
+        ], Response::HTTP_OK);
     }
 
     public function destroy(Product $product){
-        $product->delete();
-        return response()->json(["message"=>"Producto Eliminado","Producto"=>$product]);
+            $product->delete();
+            return response()->json(["message"=>"Producto Eliminado","Producto"=>$product]);
     }
 
 }

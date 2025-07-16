@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QueriesController;
+use App\Http\Controllers\SaleController;
 use App\Http\Middleware\CheckValueInHeader;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\UppercaseName;
@@ -59,4 +61,11 @@ Route::get("/info/encryptEmail2/{id}",[InfoController::class, "encryptEmail2"]);
 
 
 Route::get("/info/singleton",[InfoController::class, "singleton"]);
+
+
+Route::get("/api",[ApiController::class, "get"]);
+
+
+Route::get("/sale",[SaleController::class, "get"]);
+Route::post("/sale",[SaleController::class, "create"]);
 

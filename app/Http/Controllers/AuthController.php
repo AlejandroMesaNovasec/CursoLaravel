@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistred;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserRequest;
@@ -22,6 +23,8 @@ class AuthController extends Controller
             'email' => $validatedData["email"],
             'password' => $validatedData["password"]
         ]);
+
+        event(new UserRegistred($user));
         return response()->json(["message" => "Usuario registrado correctamente"], Response::HTTP_CREATED);
     }
 

@@ -17,3 +17,20 @@ php artisan make:controller QueriesController
 composer require tymon/jwt-auth
 php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 php artisan jwt:secret
+
+
+php artisan make:event UserRegistered
+
+php artisan queue:work 
+
+
+
+php artisan list
+
+
+--pruebas
+composer require pestphp/pest --dev --with-all-dependencies
+./vendor/bin/pest --init
+./vendor/bin/pest
+
+php artisan make:test ProductService --unit
